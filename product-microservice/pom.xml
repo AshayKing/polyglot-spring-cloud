@@ -11,12 +11,13 @@
 	</parent>
 	<groupId>io.github.ashayking</groupId>
 	<artifactId>product-microservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>product-microservice</name>
 	<description>Product Microservice with MongoDB as datastore</description>
 
 	<properties>
 		<java.version>11</java.version>
+		<docker.image.prefix>customer-microservice</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -46,6 +47,29 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.12</version>
+				<configuration>
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<dockerDirectory>src/main/docker</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+				<dependencies>
+                    <dependency>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>activation</artifactId>
+                        <version>1.1.1</version>
+                    </dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
