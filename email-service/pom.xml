@@ -9,29 +9,25 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.github.ashayking</groupId>
-	<artifactId>customer-microservice</artifactId>
+	<artifactId>email-service</artifactId>
 	<version>0.0.1</version>
-	<name>customer-microservice</name>
-	<description>Customer Microservice with Cassandra as datastore</description>
+	<name>email-service</name>
+	<description>Email Microservice for sending out email notification</description>
 
 	<properties>
 		<java.version>11</java.version>
 		<docker-maven-plugin.version>0.4.12</docker-maven-plugin.version>
-		<docker.image.prefix>customer-microservice</docker.image.prefix>
+		<docker.image.prefix>email-microservice</docker.image.prefix>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-cassandra</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

@@ -24,14 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomerController {
 
 	@Autowired
-	CustomerService customerService;
+	private CustomerService customerService;
 
 	@GetMapping
 	public List<Customer> getAllCustomers() {
 		log.info("Get all Customers...");
 		return customerService.findAll();
 	}
-	
+
 	@PostMapping("/create")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Customer createCustomer(@RequestBody Customer customer) {
@@ -43,7 +43,7 @@ public class CustomerController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<HttpStatus> authenticateUser(@RequestBody Customer customer) {
 		log.info("Authenticating Customer");
-		if(customerService.authenticateUser(customer))
+		if (customerService.authenticateUser(customer))
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		else
 			return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);

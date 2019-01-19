@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import io.github.ashayking.exception.ServiceException;
+import io.github.ashayking.message.EmailMessage;
+import io.github.ashayking.message.EmailMessageProducer;
 import io.github.ashayking.model.Customer;
 import io.github.ashayking.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 
+	@Autowired
+	private EmailMessageProducer emailMessageProducer;
+
 	@Override
 	public List<Customer> findAll() {
 		return customerRepository.findAll();
@@ -37,7 +42,14 @@ public class CustomerServiceImpl implements CustomerService {
 		if (!isValidCreateUserRequest(customer)) {
 			throw new ServiceException("Invalid create user request.");
 		}
+		sendEmail(customer.getEmail());
 		return customerRepository.save(customer);
+	}
+
+	private void sendEmail(String email) {
+		EmailMessage message = new EmailMessage();
+		message.setEmailId(email);
+		emailMessageProducer.sendNewTask(message);
 	}
 
 	private boolean isValidCreateUserRequest(Customer customer) {
@@ -54,8 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public boolean authenticateUser(Customer customer) {
 		// Required Fields
-		if (customer == null || StringUtils.isEmpty(customer.getEmail())
-				|| StringUtils.isEmpty(customer.getPassword()))
+		if (customer == null || StringUtils.isEmpty(customer.getEmail()) || StringUtils.isEmpty(customer.getPassword()))
 			return false;
 
 		// Fetch Customer Obj from DB
