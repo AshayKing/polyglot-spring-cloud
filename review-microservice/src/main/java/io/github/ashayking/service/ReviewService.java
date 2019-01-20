@@ -26,7 +26,7 @@ public class ReviewService {
 	public Review getRating(String productId) {
 		List<Review> reviewsForProduct = reviewRepository.findByProductId(productId);
 		double overallSum = reviewsForProduct.stream().mapToDouble(Review::getRating).sum();
-		double rating = overallSum / (reviewsForProduct.size());
+		double rating = overallSum == 0d ? 0 : overallSum / (reviewsForProduct.size());
 		Review review = new Review();
 		review.setProductId(productId);
 		review.setRating(rating);

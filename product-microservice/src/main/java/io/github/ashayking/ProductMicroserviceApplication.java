@@ -16,7 +16,7 @@ public class ProductMicroserviceApplication {
 	@Bean
 	RestTemplate restTemplate() {
 		return new RestTemplate();
-	};
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProductMicroserviceApplication.class, args);

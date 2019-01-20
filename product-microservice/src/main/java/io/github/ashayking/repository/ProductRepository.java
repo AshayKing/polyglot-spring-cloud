@@ -16,8 +16,6 @@ import io.github.ashayking.model.Product;
 @Repository
 public interface ProductRepository extends MongoRepository<Product, UUID> {
 
-	Product findById(String id);
-
 	List<Product> findAll();
 
 }

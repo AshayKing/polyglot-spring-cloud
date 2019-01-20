@@ -66,6 +66,6 @@ public class ProductService {
 	}
 
 	public Product getProductInfo(String productId) {
-		return productRepository.findById(productId);
+		return productRepository.findById(UUID.fromString(productId)).get();
 	}
 }
