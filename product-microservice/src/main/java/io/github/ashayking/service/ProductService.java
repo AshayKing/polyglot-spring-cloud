@@ -6,7 +6,9 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import io.github.ashayking.model.Inventory;
 import io.github.ashayking.model.Product;
 import io.github.ashayking.repository.ProductRepository;
 
@@ -18,8 +20,13 @@ import io.github.ashayking.repository.ProductRepository;
 @Service
 public class ProductService {
 
+	private static final String inventoryURI = "http://localhost:8084/inventory/";
+
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	private RestTemplate restTemplate;
 
 	public boolean addProduct(Product product) {
 		productRepository.save(product);
@@ -33,9 +40,7 @@ public class ProductService {
 	}
 
 	public List<Product> listAll() {
-		if (addProducts())
-			return productRepository.findAll();
-		return null;
+		return productRepository.findAll();
 	}
 
 	public boolean addProducts() {
@@ -49,7 +54,18 @@ public class ProductService {
 				new Product(UUID.randomUUID(), "Jeans", 25.00, "Clothing"),
 				new Product(UUID.randomUUID(), "Logitech Monitor", 40.00, "Electronics"));
 
-		productListStream.forEach(productRepository::save);
+		productListStream.forEach(product -> {
+			// Saving to Cass
+			productRepository.save(product);
+
+			// Creating inventory
+			Inventory newInventory = new Inventory(product.getId().toString(), 1000);
+			restTemplate.postForObject(inventoryURI + "create", newInventory, Inventory.class);
+		});
 		return true;
+	}
+
+	public Product getProductInfo(String productId) {
+		return productRepository.findById(productId);
 	}
 }
