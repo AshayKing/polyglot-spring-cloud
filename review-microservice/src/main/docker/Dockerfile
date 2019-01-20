@@ -2,7 +2,7 @@ FROM java:8
 
 MAINTAINER AshayKing
 
-ADD review-microservice-microservice-0.0.1.jar reviewservice.jar
+ADD review-microservice-0.0.1.jar reviewservice.jar
 
 EXPOSE 8085
 
