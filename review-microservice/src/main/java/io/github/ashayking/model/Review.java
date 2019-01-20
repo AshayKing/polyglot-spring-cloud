@@ -2,8 +2,10 @@ package io.github.ashayking.model;
 
 import java.util.UUID;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,12 +23,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Document(collection = "order")
-public class Order {
+@Entity
+@Table(name = "review")
+public class Review {
 
 	@Id
-	private UUID id;
-	private UUID customerId;
-	private UUID productId;
+	@GeneratedValue
+	private Long id;
+	private String productId;
+	private double rating;
+	private String customerId;
 
 }

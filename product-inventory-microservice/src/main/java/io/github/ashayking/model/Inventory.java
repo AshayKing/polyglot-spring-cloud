@@ -16,17 +16,16 @@ import lombok.ToString;
  * @author Ashay S Patil
  *
  */
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-@Document(collection = "order")
-public class Order {
+@Document(collection = "inventory")
+public class Inventory {
 
 	@Id
-	private UUID id;
-	private UUID customerId;
 	private UUID productId;
-
+	private Integer availableStock;
+	
 }
